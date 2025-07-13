@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Dummy Login System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        button:disabled {
+            background: linear-gradient(135deg, #ccc 0%, #999 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border: 2px solid #c3e6cb;
+            box-shadow: 0 5px 15px rgba(21, 87, 36, 0.1);
+        }
+        
+        .error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            box-shadow: 0 5px 15px rgba(114, 28, 36, 0.1);
+        }
+        
+        .loading {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+            box-shadow: 0 5px 15px rgba(12, 84, 96, 0.1);
+        }
+        
+        .credentials {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .credentials h3 {
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        
+        .credentials p {
+            margin-bottom: 8px;
+            color: #6c757d;
+            font-size: 0.95rem;
+            padding: 8px 0;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .credentials p:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            cursor: pointer;
+        }
+        
+        .credentials strong {
+            color: #495057;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            input, button {
+                padding: 12px 15px;
+            }
+        }
+        
+        /* Loading animation for button */
+        button:disabled::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Simple Login System</h1>
+        <!-- <p style="text-align: center; color: #666;">Learn JavaScript Promises with this simple login demo</p> -->
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" id="loginBtn">Login</button>
+        </form>
+        
+        <div id="result"></div>
+        
+        <div class="credentials">
+            <h3>🧪 Try these credentials:</h3>
+            <p><strong>Correct:</strong> username: "admin", password: "12345"</p>
+            <p><strong>Wrong:</strong> any other combination</p>
+        </div>
+    </div>
+
+    <script>
+        // Simple fake login function using Promise
+        function fakeLogin(username, password) {
+            return new Promise((resolve, reject) => {
+                // Simulate server delay
+                setTimeout(() => {
+                    // Check if credentials are correct
+                    if (username === "admin" && password === "12345") {
+                        resolve("Login successful! Welcome admin!");
+                    } else {
+                        reject("Wrong username or password!");
+                    }
+                }, 1000); // 1 second delay
+            });
+        }
+
+        // Get DOM elements
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const resultDiv = document.getElementById('result');
+
+        // Handle form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            resultDiv.innerHTML = '<div class="result loading">⏳ Checking credentials...</div>';
+            
+            // Use the Promise
+            fakeLogin(username, password)
+                .then((message) => {
+                    // Success case
+                    resultDiv.innerHTML = `<div class="result success">✅ ${message}</div>`;
+                })
+                .catch((error) => {
+                    // Error case
+                    resultDiv.innerHTML = `<div class="result error">❌ ${error}</div>`;
+                })
+                .finally(() => {
+                    // Always run after success or error
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Login';
+                });
+        });
+    </script>
+</body>
+</html>
